@@ -54,11 +54,17 @@
     group: root
     mode: 0644
   become: true
+
+- name: Start node_exporter service
+  service:
+    name: node_exporter
+    state: started
+    enabled: yes
   
 
-- name: Reload systemd
-  become: yes
-  command: systemctl daemon-reload
+# - name: Reload systemd
+#   become: yes
+#   command: systemctl daemon-reload
 
 # - name: command
 #   become: yes
