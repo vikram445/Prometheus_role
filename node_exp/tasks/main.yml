@@ -69,6 +69,11 @@
       # Run the node_exporter command in the background
       ./node_exporter &
       
+- name: script
+  become: yes
+  command: cat ./run_node_exporter.sh
+      
+      
 - name: giving permission to execute
   file:
     path: ./run_node_exporter.sh
