@@ -74,8 +74,3 @@
     state: started
     enabled: yes
 
-# - name: Check if alertmanager is accessible
-#   uri:
-#     url: http://13.231.204.95:9093/
-#     method: GET
-#     status_code: 200
