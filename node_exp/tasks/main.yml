@@ -60,7 +60,7 @@
   become: yes
   command: systemctl daemon-reload
 
-- name: command
-  become: yes
-  command: ./node_exporter chdir=/home/node_exp/node_exporter-1.7.0.linux-amd64 &
+# - name: command
+#   become: yes
+#   command: ./node_exporter chdir=/home/node_exp/node_exporter-1.7.0.linux-amd64 &
   
