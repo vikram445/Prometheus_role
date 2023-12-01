@@ -4,18 +4,21 @@ pipeline {
    ANSIBLE_PRIVATE_KEY=credentials('Prometheus.pem') 
   }
   stages {
-    stage('Ping Ubuntu') {
-      steps {
-        sh 'ansible  --private-key=$ANSIBLE_PRIVATE_KEY  -u ubuntu -m ping tag_Name_prom'
-      }
-    }
 
- stage('list Ubuntu') {
+stage('list Ubuntu') {
       steps {
         sh 'ansible-inventory --graph'
       }
     }
 
+stage('Ping Ubuntu') {
+      steps {
+        sh 'ansible  --private-key=$ANSIBLE_PRIVATE_KEY  -u ubuntu -m ping localhost'
+        sh 'ansible  --private-key=$ANSIBLE_PRIVATE_KEY  -u ubuntu -m ping tag_Name_prom'
+      }
+    }
+
+ 
     stage('running Prometheus role') {
       steps {
          sh 'ansible-playbook --private-key=$ANSIBLE_PRIVATE_KEY -u ubuntu prometheus/tests/test.yml'
