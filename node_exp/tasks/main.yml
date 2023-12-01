@@ -54,17 +54,30 @@
     group: root
     mode: 0644
   become: true
+        
+- name: Reload systemd
+  become: yes
+  command: systemctl daemon-reload
+    
+- name: Creating a script
+  copy:
+    dest: ./run_node_exporter.sh
+    content: |
+      #!/bin/bash
+      # Change to the desired directory
+      cd /home/node_exp/node_exporter-1.7.0.linux-amd64
+      # Run the node_exporter command in the background
+      ./node_exporter &
+      
+- name: giving permission to execute
+  file:
+    path: ./run_node_exporter.sh
+    mode: 755
 
-- name: Start node_exporter service
-  service:
-    name: node_exp.service
-    state: started
-    enabled: yes
-  
 
-# - name: Reload systemd
-#   become: yes
-#   command: systemctl daemon-reload
+- name: running script
+  command: ./run_node_exporter.sh
+      
 
 # - name: command
 #   become: yes
