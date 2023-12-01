@@ -1,0 +1,6 @@
+---
+- name: Install node_exp
+  hosts: tag_Name_node_exp
+  remote_user: ec2-user
+  roles:
+    - alertmanager

@@ -1,0 +1,6 @@
+---
+- name: Install node_exp
+  hosts: tag_Name_node_ex2
+  #remote_user:
+  roles:
+    - node_exp

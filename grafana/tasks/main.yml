@@ -1,0 +1,38 @@
+---
+- name: Install Grafana on Ubuntu and CentOS
+  hosts: tag_Name_grafana
+  become: yes
+  roles:
+    - grafana
+- name: Update apt cache
+  apt:
+    update_cache: yes
+- name: Install prerequisite packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - apt-transport-https
+    - software-properties-common
+    - wget
+  become: yes
+- name: Import the GPG key
+  ansible.builtin.get_url:
+    url: https://apt.grafana.com/gpg.key
+    dest: /etc/apt/keyrings/grafana.gpg
+  become: yes
+- name: Add the repository for stable releases
+  lineinfile:
+    path: /etc/apt/sources.list.d/grafana.list
+    line: deb [signed-by=/etc/apt/keyrings/grafana.gpg] https://apt.grafana.com
+      stable main
+  become: yes
+- name: Update the list of available packages
+  apt:
+    update_cache: yes
+  become: yes
+- name: Install Grafana OSS
+  apt:
+    name: grafana
+    state: present
+  become: yes

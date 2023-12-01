@@ -1,0 +1,14 @@
+---
+plugin: aws_ec2
+aws_access_key: AKIAYBP4U7LCFPNGP6TU
+aws_secret_key: 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
+regions:
+  - ap-northeast-1
+filters:
+    instance-state-code: 16
+      #tag:os: centos 
+keyed_groups:
+  - key: tags
+    #- key: tags.os
+    prefix: tag
+

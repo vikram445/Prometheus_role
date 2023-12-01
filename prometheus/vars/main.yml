@@ -1,0 +1,5 @@
+---
+user: "prometheus"
+group: "prometheus"
+exec_command: "/home/prometheus/prometheus-2.47.1.linux-amd64/prometheus --config.file=/home/prometheus/prometheus-2.47.1.linux-amd64/prometheus.yml"
+version: "2.47.1"
