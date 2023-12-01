@@ -7,7 +7,6 @@
       - tar
   ignore_errors: yes
 
-
 - name: Add the 'node_exp' user
   become: yes
   user:
@@ -57,23 +56,11 @@
   become: true
   
 
-# # - name: Reload systemd to apply changes
-# #   systemd:
-# #     name: "{{user}}"
-# #     state: reloaded
-# #   become: true
-
 - name: Reload systemd
   become: yes
   command: systemctl daemon-reload
 
 - name: command
   become: yes
-  command: ./node_exporter chdir=/home/node_exp/node_exporter-1.7.0.linux-amd64
+  command: ./node_exporter chdir=/home/node_exp/node_exporter-1.7.0.linux-amd64 &
   
-# - name: Start node_exporter service
-#   become: yes
-#   service:
-#      name: node_exp.service
-#      state: restarted
-#      enabled: yes
