@@ -63,6 +63,7 @@
     mode: 0644
   become: true
   notify: systemd_reload
+- meta: flush_handlers
 
 - name: Reload systemd to apply changes
   systemd:
