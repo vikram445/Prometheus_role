@@ -1,7 +1,5 @@
 ---
 plugin: aws_ec2
-aws_access_key: AKIAYBP4U7LCA2RMVZPK
-aws_secret_key: 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
 regions:
   - ap-northeast-1
 filters:
