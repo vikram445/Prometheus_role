@@ -21,7 +21,7 @@ stage('Ping Ubuntu') {
  
     stage('running Prometheus role') {
       steps {
-         sh 'ansible-playbook --private-key=$ANSIBLE_PRIVATE_KEY -u ubuntu prometheus/tests/test.yml'
+         sh 'ansible-playbook --private-key=$ANSIBLE_PRIVATE_KEY -u ubuntu node_exp/tests/test.yml'
       }
     }
   }
