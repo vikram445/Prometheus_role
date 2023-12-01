@@ -1,6 +1,6 @@
 ---
 - name: Install prometheus
-  hosts: tag_Name_Prometheus
+  hosts: tag_Name_prom
   become: yes
   roles:
     - prometheus
@@ -8,7 +8,7 @@
 
 # ---
 # - name: Install node_exp
-#   hosts: tag_Name_node_exp
+#   hosts: tag_Name_prom
 #   become: yes 
 #   roles:
-#     - node_exp
+#     - prometheus
