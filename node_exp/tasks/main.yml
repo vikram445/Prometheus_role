@@ -72,10 +72,11 @@
 - name: giving permission to execute
   file:
     path: ./run_node_exporter.sh
-    mode: 755
+    mode: 777
 
 
 - name: running script
+  become: yes
   command: ./run_node_exporter.sh
       
 
