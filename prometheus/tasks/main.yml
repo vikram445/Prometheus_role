@@ -69,9 +69,3 @@
     name: "{{user}}"
     state: reloaded
   become: true
-
-- name: Check if prometheus is accessible
-  uri:
-    url: http://172.31.38.247:9090
-    method: GET
-    status_code: 200  
