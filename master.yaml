@@ -1,1 +1,19 @@
+---
+- name: Install prometheus
+  hosts: tag_Name_prometheus_grafana_01
+  become: yes
+  roles:
+    - prometheus
 
+- name: Install alertmanager
+  hosts: tag_Name_prometheus_grafana_01
+  become: yes
+  roles:
+    - alertmanager    
+
+- name: Install node_exp
+  hosts: tag_Name_node_exp
+  become: yes
+  roles:
+    - node_exp
+    
