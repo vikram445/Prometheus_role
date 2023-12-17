@@ -25,3 +25,72 @@ pipeline {
     }
 }
 */
+
+
+pipeline {
+    agent any
+
+    environment {
+        REPO_URL = 'https://github.com/vikram445/Prometheus_role.git'   
+        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform/"
+        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/Prometheus_role/"
+        ANSIBLE_PRIVATE_KEY = "/var/lib/jenkins/workspace/terraform/private-key.pem"
+    }
+
+    stages {
+        stage('Clone Repository') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: "${REPO_URL}"]]])
+            }
+        }
+
+        stage('List Active Prometheus Servers') {
+            steps {
+                sh "ansible-inventory --graph"
+            }
+        }
+
+        stage('Copy Private Key') {
+            steps {
+                sh "sudo cp ${env.TERRAFORM_WORKSPACE}/private-key.pem ${env.INSTALL_WORKSPACE}"
+                sh "sudo chmod 400 ${env.INSTALL_WORKSPACE}/private-key.pem"
+            }
+        }
+
+        stage('Installing Promethesu') {
+            steps {
+                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags'prometheus_grafana-01'"
+                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags'alertmanager'"
+                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags'node_exp'"
+            }
+        }
+
+       stages {
+    stage('Install Prometheus') {
+        steps {
+            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags'prometheus_grafana-01'"
+        }
+    }
+
+    stage('Install Alertmanager') {
+        steps {
+            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags'alertmanager'"
+        }
+    }
+
+    stage('Install Node Exporter') {
+        steps {
+            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags'node_exp'"
+        }
+    }
+}
+
+    post {
+        success {
+            echo 'Succeeded!'
+        }
+        failure {
+            echo 'Failed!'
+        }
+    }
+}
