@@ -36,6 +36,7 @@ pipeline {
                 sh "ansible-playbook ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags 'node_exp'"
             }
         }
+     }
 
         post {
             success {
@@ -46,4 +47,3 @@ pipeline {
             }
         }
     }
-}
