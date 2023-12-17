@@ -1,3 +1,4 @@
+/. 
 pipeline {
   agent any
     environment {
@@ -26,4 +27,5 @@ stage('Ping Ubuntu') {
       }
     }
   }
-}
+}  
+./
