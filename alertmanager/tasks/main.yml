@@ -16,7 +16,7 @@
 
 - name: Download alertmanager
   get_url:
-    src: "https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
+    url: "https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
     dest: /tmp/
     #remote_src: yes
     
