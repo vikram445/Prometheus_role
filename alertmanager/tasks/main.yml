@@ -56,7 +56,7 @@
 - name: Copy config file
   become: true
   copy:
-    src: /home/ubuntu/ansible/alertmanager/templates/alertmanager.j2
+    src: alertmanager.j2
     dest: /etc/alertmanager/alertmanager.yml
     
 
