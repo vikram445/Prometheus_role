@@ -1,40 +1,10 @@
-/*
-pipeline {
-    agent any
-    environment {
-        ANSIBLE_PRIVATE_KEY = credentials('Prometheus.pem') 
-    }
-    stages {
-        stage('list Ubuntu') {
-            steps {
-                sh 'ansible-inventory --graph'
-            }
-        }
-
-        stage('Ping Ubuntu') {
-            steps {
-                sh 'ansible --private-key=$ANSIBLE_PRIVATE_KEY -u ubuntu -m ping tag_Name_prom'
-            }
-        }
-
-        stage('running Prometheus role') {
-            steps {
-                sh 'ansible-playbook --private-key=$ANSIBLE_PRIVATE_KEY -u ubuntu node_exp/tests/test.yml'
-            }
-        }
-    }
-}
-*/
-
-
 pipeline {
     agent any
 
     environment {
         REPO_URL = 'https://github.com/vikram445/Prometheus_role.git'   
-        TERRAFORM_WORKSPACE = "/var/lib/jenkins/workspace/terraform/"
         INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/Prometheus_role/"
-        ANSIBLE_PRIVATE_KEY = "/var/lib/jenkins/workspace/terraform/private-key.pem"
+        
     }
 
     stages {
@@ -50,47 +20,31 @@ pipeline {
             }
         }
 
-        stage('Copy Private Key') {
+        stage('Install Prometheus') {
             steps {
-                sh "sudo cp ${env.TERRAFORM_WORKSPACE}/private-key.pem ${env.INSTALL_WORKSPACE}"
-                sh "sudo chmod 400 ${env.INSTALL_WORKSPACE}/private-key.pem"
+                sh "ansible-playbook {env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags 'prometheus_grafana-01'"
             }
         }
 
-        stage('Installing Promethesu') {
+        stage('Install Alertmanager') {
             steps {
-                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags'prometheus_grafana-01'"
-                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags'alertmanager'"
-                sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags'node_exp'"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags 'alertmanager'"
             }
         }
 
-       stages {
-    stage('Install Prometheus') {
-        steps {
-            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags'prometheus_grafana-01'"
+        stage('Install Node Exporter') {
+            steps {
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags 'node_exp'"
+            }
         }
-    }
 
-    stage('Install Alertmanager') {
-        steps {
-            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags'alertmanager'"
-        }
-    }
-
-    stage('Install Node Exporter') {
-        steps {
-            sh "ansible-playbook -i ${ANSIBLE_PRIVATE_KEY} ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags'node_exp'"
-        }
-    }
-}
-
-    post {
-        success {
-            echo 'Succeeded!'
-        }
-        failure {
-            echo 'Failed!'
+        post {
+            success {
+                echo 'Succeeded!'
+            }
+            failure {
+                echo 'Failed!'
+            }
         }
     }
 }
