@@ -1,4 +1,4 @@
-## pipeline {
+/* pipeline {
   agent any
     environment {
    ANSIBLE_PRIVATE_KEY=credentials('Prometheus.pem') 
@@ -27,6 +27,6 @@ stage('Ping Ubuntu') {
     }
   }
 }  
-##
+*/
 
 
