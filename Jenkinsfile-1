@@ -4,7 +4,6 @@ pipeline {
     environment {
         REPO_URL = 'https://github.com/vikram445/Prometheus_role.git'   
         INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/Prometheus_role/"
-        
     }
 
     stages {
@@ -22,7 +21,7 @@ pipeline {
 
         stage('Install Prometheus') {
             steps {
-                sh "ansible-playbook {env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags 'prometheus_grafana-01'"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/Prometheus_role/tests/test.yml --tags 'prometheus_grafana-01'"
             }
         }
 
