@@ -21,19 +21,19 @@ pipeline {
 
         stage('Install Prometheus') {
             steps {
-                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/prometheus_role/tests/test.yml --tags 'prometheus_grafana-01'"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/master.yml 
             }
         }
 
         stage('Install Alertmanager') {
             steps {
-                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/alertmanager_role/tests/test.yml --tags 'alertmanager'"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/master.yml 
             }
         }
 
         stage('Install Node Exporter') {
             steps {
-                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/node_exp_role/tests/test.yml --tags 'node_exp'"
+                sh "ansible-playbook ${env.INSTALL_WORKSPACE}/master.yml 
             }
         }
      }
