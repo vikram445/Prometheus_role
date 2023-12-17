@@ -15,7 +15,7 @@
     state: present
 
 - name: Download alertmanager
-  command: "wget -O /home/ubuntu/alertmanager-{{ version }}.linux-amd64.tar.gz https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
+  command: "curl -L -o /home/ubuntu/alertmanager-{{ version }}.linux-amd64.tar.gz https://github.com/prometheus/alertmanager/releases/download/v{{ version }}/alertmanager-{{ version }}.linux-amd64.tar.gz"
    
 - name: Download alertmanager
   unarchive:
