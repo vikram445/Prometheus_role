@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         REPO_URL = 'https://github.com/vikram445/Prometheus_role.git'   
-        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/Prometheus_role/"
+        INSTALL_WORKSPACE = "/var/lib/jenkins/workspace/Prometheus_role"
     }
 
     stages {
